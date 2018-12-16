@@ -1,9 +1,8 @@
-const Command = require('command');
-
-module.exports = function LobbyCommand(dispatch) {
-    const command = Command(dispatch);
+module.exports = function LobbyCommand(m) {
+    const cmd = m.command || m.require.command;
     
-    command.add(['lobby', 'logout'], () => {
-        dispatch.toServer('C_RETURN_TO_LOBBY', 1, {});
-    });
+    cmd.add(['lobby', 'logout'], {
+        $none() { m.send('C_RETURN_TO_LOBBY', 1, {}); } 
+    })
 }
+
